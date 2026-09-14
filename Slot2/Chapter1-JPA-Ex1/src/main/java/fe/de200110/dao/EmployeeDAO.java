@@ -6,7 +6,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class EmployeeDAO {
+
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("hsf302");
     public static EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -31,5 +34,26 @@ public class EmployeeDAO {
             }
         }
 
+
+    }
+
+    public Employee findById(Long id) {
+        EntityManager em = getEntityManager();
+
+        try {
+            return  em.find(Employee.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Employee> findAll() {
+        EntityManager em = getEntityManager();
+        try {
+            return  em.createQuery("select e from Employee e").getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 }
