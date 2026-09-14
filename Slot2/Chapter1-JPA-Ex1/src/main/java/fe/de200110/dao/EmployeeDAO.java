@@ -83,6 +83,24 @@ public class EmployeeDAO {
             em.close();
         }
     }
+    public void delete(Long id) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            Employee e = em.find(Employee.class, id);
+            if (e != null) {
+                em.remove(e);
+            }
+            tx.commit();
+        } catch (RuntimeException ex) {
+            if (tx.isActive()) tx.rollback();
+            throw ex;
+        } finally {
+            em.close();
+        }
+    }
 
 }
 
