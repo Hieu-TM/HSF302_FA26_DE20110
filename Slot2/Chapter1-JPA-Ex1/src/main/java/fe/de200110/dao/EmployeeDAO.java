@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class EmployeeDAO {
@@ -38,22 +39,31 @@ public class EmployeeDAO {
     }
 
     public Employee findById(Long id) {
-        EntityManager em = getEntityManager();
 
-        try {
-            return  em.find(Employee.class, id);
-        } finally {
-            em.close();
+        try (EntityManager em = getEntityManager()) {
+            return em.find(Employee.class, id);
         }
     }
 
     public List<Employee> findAll() {
-        EntityManager em = getEntityManager();
-        try {
-            return  em.createQuery("select e from Employee e").getResultList();
+        try (EntityManager em = getEntityManager()) {
+            return em.createQuery("select e from Employee e", Employee.class).getResultList();
         }
-        finally {
-            em.close();
+    }
+
+    public Employee findByEmail(String email) {
+
+        try (EntityManager em = getEntityManager()) {
+            List<Employee> result = em.createQuery("select e from Employee e where e.email = :email", Employee.class).setParameter("email", email).getResultList();
+
+            return (result.isEmpty()) ? null : result.getFirst();
+        }
+    }
+
+    public List<Employee> findBySalaryGreaterThanAndActive(BigDecimal salary) {
+
+        try (EntityManager em = getEntityManager()) {
+            return em.createQuery("select e from Employee e where e.salary >  :salary and e.active = true", Employee.class).setParameter("salary", salary).getResultList();
         }
     }
 }
