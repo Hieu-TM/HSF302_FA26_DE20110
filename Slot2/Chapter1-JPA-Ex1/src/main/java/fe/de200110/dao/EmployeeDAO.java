@@ -66,4 +66,24 @@ public class EmployeeDAO {
             return em.createQuery("select e from Employee e where e.salary >  :salary and e.active = true", Employee.class).setParameter("salary", salary).getResultList();
         }
     }
+
+    public Employee update(Employee e) {
+        EntityManager  em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Employee merged = em.merge(e);
+            tx.commit();
+
+            return merged;
+        } catch (RuntimeException ex) {
+            if (tx.isActive()) tx.rollback();
+            throw ex;
+        } finally {
+            em.close();
+        }
+    }
+
 }
+
+
