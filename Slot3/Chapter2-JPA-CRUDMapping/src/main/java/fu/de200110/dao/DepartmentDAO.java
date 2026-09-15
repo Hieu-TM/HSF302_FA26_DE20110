@@ -18,7 +18,7 @@ public class DepartmentDAO {
         }
 
     }
-    public Department findById(int id) {
+    public Department findById(Long id) {
         try (EntityManager em = getEntityManagerFactory().createEntityManager()) {
             return em.find(Department.class, id);
         }
@@ -71,5 +71,13 @@ public class DepartmentDAO {
              em.close();
          }
      }
+
+     public Department findDepartmentWithEmployee(Long id) {
+        try(EntityManager em = getEntityManagerFactory().createEntityManager()) {
+            return em.createQuery("select d from Department d join fetch d.employees where d.id = :id",  Department.class).setParameter("id", id).getSingleResult();
+        }
+     }
+
+
 
 }
