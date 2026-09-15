@@ -2,6 +2,9 @@ package fu.de200110.pojo;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "department")
 public class Department {
@@ -16,6 +19,9 @@ public class Department {
 
     public Department() {
     }
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Employee> employees = new ArrayList<>();
+
 
     public Department(Long id, String name, String location) {
         this.id = id;
@@ -49,4 +55,11 @@ public class Department {
         this.location = location;
     }
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }
