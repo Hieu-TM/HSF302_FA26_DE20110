@@ -18,6 +18,13 @@ public class DepartmentDAO {
         }
 
     }
+    //Before JOIN FETCH : An  SELECT statement to retrieve a list of N products.
+    //With JOIN FETCH: Only having 1 select statement
+    public List<Department> findAllWithEmployees() {
+        try (EntityManager em = getEntityManagerFactory().createEntityManager()) {
+            return em.createQuery("select d from Department d join fetch d.employees", Department.class).getResultList();
+        }
+    }
     public Department findById(Long id) {
         try (EntityManager em = getEntityManagerFactory().createEntityManager()) {
             return em.find(Department.class, id);
