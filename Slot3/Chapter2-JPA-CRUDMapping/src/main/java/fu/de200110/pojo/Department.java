@@ -18,13 +18,14 @@ public class Department {
     private  String location;
 
     public Department() {
+
     }
+
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees = new ArrayList<>();
 
 
-    public Department(Long id, String name, String location) {
-        this.id = id;
+    public Department(String name, String location) {
         this.name = name;
         this.location = location;
     }
