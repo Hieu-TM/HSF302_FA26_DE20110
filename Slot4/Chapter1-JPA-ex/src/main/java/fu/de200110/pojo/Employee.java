@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -126,5 +127,30 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    @Override
+    public int hashCode() {
+        // Dùng email thay vì id vì:
+        // 1. ID được sinh tự động bởi DB, chưa có ID khi object mới tạo (trước save)
+        // 2. Nếu dùng ID, object chưa save sẽ có hashCode không ổn định
+        // 3. Email là unique và đại diện chính xác cho nhân viên
+        // 4. Email không đổi, đảm bảo hashCode ổn định trong suốt vòng đời object
+        return Objects.hash(email);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Employee other = (Employee) obj;
+        // Dùng email để so sánh thay vì id vì:
+        // 1. ID chưa tồn tại cho object mới (trước khi persist)
+        // 2. Email là unique và bất biến, đúng để xác định nhân viên
+        // 3. Tránh vấn đề: hai object cùng dữ liệu nhưng ID khác
+        // 4. Đảm bảo consistency giữa hashCode() và equals()
+        return Objects.equals(email, other.email);
     }
 }
