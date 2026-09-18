@@ -66,4 +66,14 @@ public class ProjectDAO {
             em.close();
         }
     }
+
+    public List<Object[]> countActiveEmployeesAndSumSalaryByProject() {
+        try (EntityManager em = getEntityManagerFactory().createEntityManager()) {
+            String jpql = "SELECT p.projectName, COUNT(e), SUM(e.salary) " +
+                          "FROM Project p JOIN p.employees e " +
+                          "WHERE e.active = true " +
+                          "GROUP BY p.projectName";
+            return em.createQuery(jpql, Object[].class).getResultList();
+        }
+    }
 }

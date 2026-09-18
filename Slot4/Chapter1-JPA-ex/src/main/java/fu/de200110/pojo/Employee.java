@@ -41,7 +41,7 @@ public class Employee {
 
 
     @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "employee_Project", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
+    @JoinTable(name = "employee_project", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
 
     private Set<Project> projects = new HashSet<>();
     public Employee() {
