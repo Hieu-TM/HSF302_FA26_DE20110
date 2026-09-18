@@ -1,6 +1,7 @@
 package fu.de200110.dao;
 
 import fu.de200110.pojo.Employee;
+import fu.de200110.pojo.Project;
 import fu.de200110.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -66,6 +67,30 @@ public class EmployeeDAO {
             if (tx.isActive()) tx.rollback();
             throw ex;
         } finally{
+            em.close();
+        }
+    }
+
+    public void assignEmployeeToProject(Long employeeId, Long projectId) {
+        EntityManager em = getEntityManagerFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Employee employee = em.find(Employee.class, employeeId);
+            Project project = em.find(Project.class, projectId);
+            
+            if (employee == null || project == null) {
+                throw new IllegalArgumentException("Employee or Project not exists");
+            }
+            
+            employee.assignToProject(project);
+            
+            em.merge(employee);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx.isActive()) tx.rollback();
+            throw ex;
+        } finally {
             em.close();
         }
     }
