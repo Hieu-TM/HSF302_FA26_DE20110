@@ -119,4 +119,13 @@ public class EmployeeDAO {
         }
     }
 
+    public List<Employee> findActiveEmployeesWithMultipleProjects() {
+        try (EntityManager em = getEntityManagerFactory().createEntityManager()) {
+            return em.createQuery(
+                "SELECT e FROM Employee e WHERE e.active = true AND SIZE(e.projects) > 1",
+                Employee.class
+            ).getResultList();
+        }
+    }
+
 }
