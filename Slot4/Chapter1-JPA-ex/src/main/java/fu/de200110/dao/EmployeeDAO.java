@@ -95,4 +95,28 @@ public class EmployeeDAO {
         }
     }
 
+    public void unassignEmployeeFromProject(Long employeeId, Long projectId) {
+        EntityManager em = getEntityManagerFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Employee employee = em.find(Employee.class, employeeId);
+            Project project = em.find(Project.class, projectId);
+            
+            if (employee == null || project == null) {
+                throw new IllegalArgumentException("Employee or Project not exists");
+            }
+            
+            employee.unassignFromProject(project);
+            
+            em.merge(employee);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx.isActive()) tx.rollback();
+            throw ex;
+        } finally {
+            em.close();
+        }
+    }
+
 }

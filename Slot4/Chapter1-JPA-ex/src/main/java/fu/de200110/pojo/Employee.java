@@ -144,6 +144,12 @@ public class Employee {
         project.getEmployees().add(this);
     }
 
+    public void unassignFromProject(Project project) {
+        if (project == null) return;
+        this.projects.remove(project);
+        project.getEmployees().remove(this);
+    }
+
     @Override
     public int hashCode() {
         // Dùng email thay vì id vì:

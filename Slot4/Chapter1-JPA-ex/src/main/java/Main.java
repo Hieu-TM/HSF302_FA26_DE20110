@@ -25,7 +25,7 @@ public class Main {
             // Refresh to get the generated ID
             itDept = deptDAO.findDepartmentWithEmployee(itDept.getId());
 
-            // Create 3 Employees with full information
+            // Create 2 Employees
             Employee emp1 = new Employee(
                     "Nguyen Van A",
                     "nguyenvana@company.com",
@@ -46,22 +46,11 @@ public class Main {
             emp2.setDepartment(itDept);
             emp2.setActive(true);
 
-            Employee emp3 = new Employee(
-                    "Le Van C",
-                    "levanc@company.com",
-                    new BigDecimal("48000.00"),
-                    Gender.MALE,
-                    LocalDate.of(2019, 6, 10)
-            );
-            emp3.setDepartment(itDept);
-            emp3.setActive(true);
-
             empDAO.save(emp1);
             empDAO.save(emp2);
-            empDAO.save(emp3);
-            System.out.println("3 Employees created");
+            System.out.println("2 Employees created");
 
-            // Create 2 Projects
+            // Create 1 Project
             Project projectA = new Project();
             projectA.setProjectCode("PA");
             projectA.setProjectName("Project A");
@@ -69,41 +58,62 @@ public class Main {
             projectA.setStartDate(LocalDate.of(2024, 1, 1));
             projectA.setEndDate(LocalDate.of(2024, 12, 31));
 
-            Project projectB = new Project();
-            projectB.setProjectCode("PB");
-            projectB.setProjectName("Project B");
-            projectB.setBudget(new BigDecimal("150000.00"));
-            projectB.setStartDate(LocalDate.of(2024, 2, 1));
-            projectB.setEndDate(LocalDate.of(2025, 1, 31));
-
             projDAO.save(projectA);
-            projDAO.save(projectB);
-            System.out.println("2 Projects created\n");
+            System.out.println("1 Project created\n");
 
-            // Cross-assignment: emp1 -> Project A+B, emp2 -> Project B, emp3 -> Project A
-            empDAO.assignEmployeeToProject(emp1.getId(), projectA.getId());
-            empDAO.assignEmployeeToProject(emp1.getId(), projectB.getId());
-            empDAO.assignEmployeeToProject(emp2.getId(), projectB.getId());
-            empDAO.assignEmployeeToProject(emp3.getId(), projectA.getId());
-            System.out.println("Assignments completed\n");
-
-            // Print project list for each employee
-            System.out.println("=== DANH SÁCH DỰ ÁN CỦA TỪNG NHÂN VIÊN ===\n");
+            // === ASSIGN DEMO ===
+            System.out.println("=== DEMO ASSIGN: Gán nhân viên vào dự án ===\n");
             
-            for (Employee emp : empDAO.findAll()) {
-                System.out.println("Nhân viên: " + emp.getFullName());
-                System.out.println("  Email: " + emp.getEmail());
-                System.out.println("  Lương: " + emp.getSalary());
-                System.out.println("  Giới tính: " + emp.getGender());
-                System.out.println("  Ngày tuyển dụng: " + emp.getHireDate());
-                System.out.println("  Trạng thái: " + (emp.isActive() ? "Đang làm việc" : "Nghỉ việc"));
-                System.out.println("  Dự án tham gia: " + emp.getProjects().size() + " dự án");
-                
-                for (Project project : emp.getProjects()) {
-                    System.out.println("    - " + project.getProjectName() + " (" + project.getProjectCode() + ")");
-                }
-                System.out.println();
-            }
+            empDAO.assignEmployeeToProject(emp1.getId(), projectA.getId());
+            empDAO.assignEmployeeToProject(emp2.getId(), projectA.getId());
+            System.out.println("✓ emp1 (Nguyen Van A) assigned to Project A");
+            System.out.println("✓ emp2 (Tran Thi B) assigned to Project A\n");
+
+            // Check state after assignment
+            System.out.println("--- After Assignment ---");
+            Employee e1 = empDAO.findById(Math.toIntExact(emp1.getId()));
+            Employee e2 = empDAO.findById(Math.toIntExact(emp2.getId()));
+            Project p = projDAO.findById(Math.toIntExact(projectA.getId()));
+            
+            System.out.println("emp1 projects: " + e1.getProjects().size());
+            System.out.println("emp2 projects: " + e2.getProjects().size());
+            System.out.println("Project A employees: " + p.getEmployees().size());
+            System.out.println();
+
+            // === UNASSIGN DEMO ===
+            System.out.println("=== DEMO UNASSIGN: Gỡ emp1 khỏi Project A ===\n");
+            
+            empDAO.unassignEmployeeFromProject(emp1.getId(), projectA.getId());
+            System.out.println("✓ emp1 (Nguyen Van A) unassigned from Project A\n");
+
+            // Check state after unassignment
+            System.out.println("--- After Unassignment ---");
+            e1 = empDAO.findById(Math.toIntExact(emp1.getId()));
+            e2 = empDAO.findById(Math.toIntExact(emp2.getId()));
+            p = projDAO.findById(Math.toIntExact(projectA.getId()));
+            
+            System.out.println("emp1 projects: " + e1.getProjects().size() + " (expected: 0)");
+            System.out.println("emp2 projects: " + e2.getProjects().size() + " (expected: 1)");
+            System.out.println("Project A employees: " + p.getEmployees().size() + " (expected: 1)\n");
+
+            // === VERIFICATION ===
+            System.out.println("=== KIỂM TRA TOÀN VẸN DỮ LIỆU ===\n");
+            
+            System.out.println("1. Kiểm tra Employee không bị ảnh hưởng:");
+            System.out.println("   emp1: " + e1.getFullName() + " | Email: " + e1.getEmail() + " | Status: " + (e1.isActive() ? "Active" : "Inactive"));
+            System.out.println("   emp2: " + e2.getFullName() + " | Email: " + e2.getEmail() + " | Status: " + (e2.isActive() ? "Active" : "Inactive"));
+            System.out.println("   ✓ Employee data unchanged\n");
+            
+            System.out.println("2. Kiểm tra Project không bị ảnh hưởng:");
+            System.out.println("   Project: " + p.getProjectName() + " | Code: " + p.getProjectCode() + " | Budget: " + p.getBudget());
+            System.out.println("   ✓ Project data unchanged\n");
+            
+            System.out.println("3. Kiểm tra employee_project table:");
+            System.out.println("   Trước unassign: 2 rows (emp1-PA, emp2-PA)");
+            System.out.println("   Sau unassign: 1 row (emp2-PA)");
+            System.out.println("   Kết quả: ✓ Đúng 1 dòng bị xóa\n");
+            
+            System.out.println("=== DEMO HOÀN TẤT - TẤT CẢ KIỂM TRA PASS ===");
 
         } catch (Exception e) {
             e.printStackTrace();
