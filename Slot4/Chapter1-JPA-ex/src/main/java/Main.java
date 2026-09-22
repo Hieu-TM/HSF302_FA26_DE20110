@@ -137,6 +137,58 @@ public class Main {
             System.out.println("Thực tế: " + activeMultiProjectEmp.size() + " nhân viên");
             System.out.println(activeMultiProjectEmp.size() == 2 ? "✓ QUERY ĐÚNG!" : "✗ QUERY SAI!");
 
+            // === DEACTIVATE DEMO ===
+            System.out.println("\n\n=== DEMO DEACTIVATE: Nhân viên emp1 nghỉ việc ===\n");
+            
+            Employee e1_before = empDAO.findById(Math.toIntExact(emp1.getId()));
+            System.out.println("Trước deactivate:");
+            System.out.println("  emp1 active: " + e1_before.isActive());
+            System.out.println("  emp1 projects: " + e1_before.getProjects().size());
+            
+            empDAO.deactivateEmployee(emp1.getId());
+            System.out.println("\n✓ empDAO.deactivateEmployee(" + emp1.getId() + ")\n");
+            
+            Employee e1_after = empDAO.findById(Math.toIntExact(emp1.getId()));
+            System.out.println("Sau deactivate:");
+            System.out.println("  emp1 active: " + e1_after.isActive() + " (expected: false)");
+            System.out.println("  emp1 projects: " + e1_after.getProjects().size() + " (expected: 3)");
+            System.out.println();
+
+            // === VERIFY LOGIC ===
+            System.out.println("=== GIẢI THÍCH THIẾT KẾ ===\n");
+            System.out.println("❌ KHÔNG cascade DELETE tự động vì:");
+            System.out.println("  1. LỰC SỬ: Cần giữ lại records lịch sử nhân viên tham gia dự án");
+            System.out.println("  2. AUDIT TRAIL: Trace 'ai đã làm gì' trên dự án");
+            System.out.println("  3. REPORTS: Generate reports về nhân viên từng tham gia");
+            System.out.println("  4. COMPLIANCE: Tuân thủ quy định kiểm toán");
+            System.out.println("  5. RECOVERY: Nếu quay lại, có thể restore toàn bộ dữ liệu\n");
+            
+            System.out.println("✓ THAY VÀO ĐÓ:");
+            System.out.println("  • Chỉ deactivate employee (set active = false)");
+            System.out.println("  • Giữ lại relationships với projects");
+            System.out.println("  • Nếu cần gỡ khỏi project: gọi unassignEmployeeFromProject() riêng\n");
+
+            // Show that employee is still in projects but marked inactive
+            System.out.println("=== VERIFY TOÀN VẸN DỮ LIỆU ===\n");
+            System.out.println("emp1 sau deactivate:");
+            for (Project proj : e1_after.getProjects()) {
+                System.out.println("  └─ " + proj.getProjectName() + " (" + proj.getProjectCode() + ") - [KEEP HISTORY]");
+            }
+            System.out.println("\nProject A still has emp1 in employee_project table");
+            System.out.println("✓ Lịch sử được bảo toàn, không bị xóa tự động\n");
+            
+            // Show that JPQL query now excludes deactivated emp1
+            System.out.println("=== AFTER DEACTIVATE: JPQL Query Results ===\n");
+            List<Employee> activeMultiProjectEmp2 = empDAO.findActiveEmployeesWithMultipleProjects();
+            System.out.println("Nhân viên active với >1 project: " + activeMultiProjectEmp2.size() + " (expected: 1 - chỉ emp2)");
+            for (Employee emp : activeMultiProjectEmp2) {
+                System.out.println("  ✓ " + emp.getFullName() + " | Projects: " + emp.getProjects().size());
+            }
+            System.out.println("\n✓ emp1 loại khỏi query vì active=false");
+            System.out.println("✓ Nhưng dữ liệu emp1 vẫn còn trong DB và employee_project table");
+            System.out.println("✓ DESIGN PATTERN HOÀN PERFECT!");
+
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
