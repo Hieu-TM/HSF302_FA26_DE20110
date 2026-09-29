@@ -155,4 +155,12 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> findGoodStudents(String deptCode, double minGpa) {
         return studentRepository.findGoodStudents(deptCode, minGpa);
     }
+
+    @Override
+    public List<Student> searchByKeyword(String kw) {
+        if (kw == null || kw.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        return studentRepository.searchByKeyword(kw.trim());
+    }
 }

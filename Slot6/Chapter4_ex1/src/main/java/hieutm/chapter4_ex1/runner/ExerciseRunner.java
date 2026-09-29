@@ -29,6 +29,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo10();
         runTodo11();
         runTodo12();
+        runTodo13();
     }
 
     private void runTodo6() {
@@ -140,6 +141,19 @@ public class ExerciseRunner implements CommandLineRunner {
         System.out.println("Students in 'SE' with GPA >= 3.0 sorted by GPA desc:");
         studentService.findGoodStudents("SE", 3.0).forEach(
                 s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa())
+        );
+    }
+
+    private void runTodo13() {
+        System.out.println("===== TODO 13: Custom query - JPQL LIKE + CONCAT + LOWER =====");
+        System.out.println("-- Search with 'hoa':");
+        studentService.searchByKeyword("hoa").forEach(
+                s -> System.out.println(s.getFullName() + " - " + s.getEmail())
+        );
+
+        System.out.println("-- Search with 'gmail':");
+        studentService.searchByKeyword("gmail").forEach(
+                s -> System.out.println(s.getFullName() + " - " + s.getEmail())
         );
     }
 }

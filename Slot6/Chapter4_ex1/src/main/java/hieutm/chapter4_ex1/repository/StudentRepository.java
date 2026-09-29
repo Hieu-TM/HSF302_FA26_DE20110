@@ -41,4 +41,7 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
 
     @Query("SELECT s FROM Student s WHERE s.department.code = :deptCode AND s.gpa >= :minGpa ORDER BY s.gpa DESC")
     List<Student> findGoodStudents(@Param("deptCode") String deptCode, @Param("minGpa") double minGpa);
+
+    @Query("SELECT s FROM Student s WHERE LOWER(s.fullName) LIKE LOWER(CONCAT('%', :kw, '%')) OR (s.email IS NOT NULL AND LOWER(s.email) LIKE LOWER(CONCAT('%', :kw, '%'))) ORDER BY s.fullName ASC")
+    List<Student> searchByKeyword(@Param("kw") String kw);
 }
