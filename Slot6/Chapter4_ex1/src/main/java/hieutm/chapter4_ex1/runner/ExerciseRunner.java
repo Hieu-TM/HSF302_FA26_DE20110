@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Order(2)
@@ -40,6 +42,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo24();
         runTodo20();
         runTodo21();
+        runTodo22();
     }
 
     private void runTodo6() {
@@ -254,5 +257,19 @@ public class ExerciseRunner implements CommandLineRunner {
         int affected = studentService.deactivateLowGpa(2.5);
         long remainingActive = studentService.countActive();
         System.out.printf("Affected rows: %d | Remaining active students: %d%n", affected, remainingActive);
+    }
+
+    private void runTodo22() {
+        System.out.println("===== TODO 22: Modifying - Transfer students and remove department =====");
+        int transferred = departmentService.transferStudentsAndDelete("IA", "SE");
+        System.out.println("Transferred students: " + transferred);
+
+        List<Student> seStudents = studentService.findByDepartment("SE");
+        System.out.printf("Department SE now has %d students:%n", seStudents.size());
+        seStudents.forEach(s -> System.out.println(" - " + s.getFullName()));
+
+        List<Department> remainingDepts = departmentService.findAll();
+        System.out.print("Remaining departments: ");
+        System.out.println(remainingDepts.stream().map(Department::getCode).collect(Collectors.joining(", ")));
     }
 }

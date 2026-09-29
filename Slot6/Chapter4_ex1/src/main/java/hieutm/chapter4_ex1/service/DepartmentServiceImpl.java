@@ -3,6 +3,7 @@ package hieutm.chapter4_ex1.service;
 import hieutm.chapter4_ex1.dto.DepartmentStatDTO;
 import hieutm.chapter4_ex1.pojo.Department;
 import hieutm.chapter4_ex1.repository.DepartmentRepository;
+import hieutm.chapter4_ex1.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
+    private final StudentRepository studentRepository;
 
     @Override
     public List<Department> findAll() {
@@ -74,5 +76,21 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Department getWithStudents(String code) {
         return departmentRepository.findByCodeWithStudents(code)
                 .orElseThrow(() -> new IllegalArgumentException("Department not found with code: " + code));
+    }
+
+    @Override
+    @Transactional
+    public int transferStudentsAndDelete(String fromCode, String toCode) {
+        if (fromCode == null || toCode == null || fromCode.trim().equalsIgnoreCase(toCode.trim())) {
+            throw new IllegalArgumentException("From and to department codes must be valid, non-null, and different");
+        }
+        Department fromDept = departmentRepository.findByCode(fromCode.trim())
+                .orElseThrow(() -> new IllegalArgumentException("Department not found with code: " + fromCode));
+        Department toDept = departmentRepository.findByCode(toCode.trim())
+                .orElseThrow(() -> new IllegalArgumentException("Department not found with code: " + toCode));
+
+        int transferred = studentRepository.transferStudents(fromDept, toDept);
+        departmentRepository.deleteById(fromDept.getId());
+        return transferred;
     }
 }

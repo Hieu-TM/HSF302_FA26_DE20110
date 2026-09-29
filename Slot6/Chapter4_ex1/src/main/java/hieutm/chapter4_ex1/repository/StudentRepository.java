@@ -1,6 +1,7 @@
 package hieutm.chapter4_ex1.repository;
 
 import hieutm.chapter4_ex1.dto.StudentSummary;
+import hieutm.chapter4_ex1.pojo.Department;
 import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 import org.springframework.data.domain.Page;
@@ -65,4 +66,8 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Student s SET s.active = false WHERE s.active = true AND s.gpa < :threshold")
     int deactivateLowGpa(@Param("threshold") double threshold);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Student s SET s.department = :toDept WHERE s.department = :fromDept")
+    int transferStudents(@Param("fromDept") Department fromDept, @Param("toDept") Department toDept);
 }
