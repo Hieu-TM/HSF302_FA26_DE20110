@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "students")
@@ -19,15 +20,27 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String name;
+    @Column(name = "student_code", nullable = false, unique = true, length = 20)
+    private String studentCode;
 
-    @Column(nullable = false, unique = true, length = 20)
-    private String code;
+    @Column(name = "full_name", nullable = false, length = 100)
+    private String fullName;
+
+    @Column(unique = true, length = 100)
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private Gender gender;
+
+    @Column
+    private LocalDate dob;
+
+    @Column
+    private Double gpa;
+
+    @Column(nullable = false)
+    private Boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id", nullable = false)
@@ -37,9 +50,13 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", code='" + code + '\'' +
+                ", studentCode='" + studentCode + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
                 ", gender=" + gender +
+                ", dob=" + dob +
+                ", gpa=" + gpa +
+                ", active=" + active +
                 '}';
     }
 }
