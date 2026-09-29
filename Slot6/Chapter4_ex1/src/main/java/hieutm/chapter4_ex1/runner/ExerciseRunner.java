@@ -22,6 +22,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo6();
         runTodo7();
         runTodo8();
+        runTodo9();
     }
 
     private void runTodo6() {
@@ -75,5 +76,17 @@ public class ExerciseRunner implements CommandLineRunner {
 
         System.out.println("-- 8c. Count active students --");
         System.out.println("Active students count: " + studentService.countActive());
+    }
+
+    private void runTodo9() {
+        System.out.println("===== TODO 9: Derived query - searchByName, findByEmailDomain, findWithoutEmail =====");
+        System.out.println("-- 9a. FullName contains 'nguyen' (ignore case) --");
+        studentService.searchByName("nguyen").forEach(s -> System.out.println(s.getFullName()));
+
+        System.out.println("-- 9b. Email ending with '@gmail.com' --");
+        studentService.findByEmailDomain("@gmail.com").forEach(s -> System.out.println(s.getFullName() + " - " + s.getEmail()));
+
+        System.out.println("-- 9c. Students without email (null) --");
+        studentService.findWithoutEmail().forEach(s -> System.out.println(s.getFullName()));
     }
 }

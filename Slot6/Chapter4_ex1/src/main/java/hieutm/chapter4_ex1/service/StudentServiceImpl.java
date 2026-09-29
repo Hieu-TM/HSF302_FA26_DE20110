@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,5 +88,30 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public long countActive() {
         return studentRepository.countByActiveTrue();
+    }
+
+    @Override
+    public List<Student> searchByName(String kw) {
+        if (kw == null || kw.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        return studentRepository.findByFullNameContainingIgnoreCase(kw.trim());
+    }
+
+    @Override
+    public List<Student> findByEmailDomain(String domain) {
+        if (domain == null || domain.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        String cleanDomain = domain.trim();
+        if (!cleanDomain.startsWith("@")) {
+            cleanDomain = "@" + cleanDomain;
+        }
+        return studentRepository.findByEmailEndingWith(cleanDomain);
+    }
+
+    @Override
+    public List<Student> findWithoutEmail() {
+        return studentRepository.findByEmailIsNull();
     }
 }
