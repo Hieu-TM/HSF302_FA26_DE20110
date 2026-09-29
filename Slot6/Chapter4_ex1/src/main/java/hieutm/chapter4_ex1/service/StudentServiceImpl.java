@@ -34,6 +34,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
+    public List<Student> saveAll(Iterable<Student> students) {
+        return studentRepository.saveAll(students);
+    }
+
+    @Override
+    @Transactional
     public void deleteById(Long id) {
         studentRepository.deleteById(id);
     }

@@ -34,6 +34,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    public List<Department> saveAll(Iterable<Department> departments) {
+        return departmentRepository.saveAll(departments);
+    }
+
+    @Override
+    @Transactional
     public void deleteById(Long id) {
         departmentRepository.deleteById(id);
     }

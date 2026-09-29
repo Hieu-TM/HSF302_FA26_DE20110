@@ -12,6 +12,8 @@ public interface DepartmentService {
     Optional<Department> findById(Long id);
     
     Department save(Department department);
-    
+
     void deleteById(Long id);
+
+    List<Department> saveAll(Iterable<Department> departments);
 }

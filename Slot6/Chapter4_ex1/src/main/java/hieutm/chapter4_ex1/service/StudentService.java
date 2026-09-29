@@ -13,5 +13,7 @@ public interface StudentService {
     
     Student save(Student student);
     
+    List<Student> saveAll(Iterable<Student> students);
+    
     void deleteById(Long id);
 }
