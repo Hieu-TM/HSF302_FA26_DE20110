@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.runner;
 
+import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 import hieutm.chapter4_ex1.service.DepartmentService;
 import hieutm.chapter4_ex1.service.StudentService;
@@ -8,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 @Order(2)
@@ -23,6 +26,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo7();
         runTodo8();
         runTodo9();
+        runTodo10();
     }
 
     private void runTodo6() {
@@ -88,5 +92,23 @@ public class ExerciseRunner implements CommandLineRunner {
 
         System.out.println("-- 9c. Students without email (null) --");
         studentService.findWithoutEmail().forEach(s -> System.out.println(s.getFullName()));
+    }
+
+    private void runTodo10() {
+        System.out.println("===== TODO 10: Derived query - Between+OrderBy, And+True, After =====");
+        System.out.println("-- 10a. GPA in [3.0, 3.6] sorted by GPA desc --");
+        studentService.findByGpaRange(3.0, 3.6).forEach(
+                s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa())
+        );
+
+        System.out.println("-- 10b. Active Male students --");
+        studentService.findActiveByGender(Gender.MALE).forEach(
+                s -> System.out.println(s.getFullName() + " - " + s.getGender() + " - active: " + s.getActive())
+        );
+
+        System.out.println("-- 10c. Students born after 2005-01-01 --");
+        studentService.findBornAfter(LocalDate.of(2005, 1, 1)).forEach(
+                s -> System.out.println(s.getFullName() + " - DOB: " + s.getDob())
+        );
     }
 }

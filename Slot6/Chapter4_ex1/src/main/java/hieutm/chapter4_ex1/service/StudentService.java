@@ -1,9 +1,11 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,4 +38,10 @@ public interface StudentService {
     List<Student> findByEmailDomain(String domain);
 
     List<Student> findWithoutEmail();
+
+    List<Student> findByGpaRange(double min, double max);
+
+    List<Student> findActiveByGender(Gender g);
+
+    List<Student> findBornAfter(LocalDate d);
 }

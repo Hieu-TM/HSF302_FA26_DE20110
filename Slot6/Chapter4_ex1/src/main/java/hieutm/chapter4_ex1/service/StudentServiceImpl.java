@@ -1,10 +1,13 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 import hieutm.chapter4_ex1.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -113,5 +116,23 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> findWithoutEmail() {
         return studentRepository.findByEmailIsNull();
+    }
+
+    @Override
+    public List<Student> findByGpaRange(double min, double max) {
+        if (min > max) {
+            throw new IllegalArgumentException("min GPA must be less than or equal to max GPA");
+        }
+        return studentRepository.findByGpaBetweenOrderByGpaDesc(min, max);
+    }
+
+    @Override
+    public List<Student> findActiveByGender(Gender g) {
+        return studentRepository.findByGenderAndActiveTrue(g);
+    }
+
+    @Override
+    public List<Student> findBornAfter(LocalDate d) {
+        return studentRepository.findByDobAfter(d);
     }
 }
