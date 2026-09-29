@@ -43,4 +43,9 @@ public class StudentServiceImpl implements StudentService {
     public void deleteById(Long id) {
         studentRepository.deleteById(id);
     }
+
+    @Override
+    public long count() {
+        return studentRepository.count();
+    }
 }

@@ -43,4 +43,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void deleteById(Long id) {
         departmentRepository.deleteById(id);
     }
+
+    @Override
+    public long count() {
+        return departmentRepository.count();
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return departmentRepository.existsById(id);
+    }
 }

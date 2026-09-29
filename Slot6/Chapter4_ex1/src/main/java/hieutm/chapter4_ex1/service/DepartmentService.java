@@ -16,4 +16,8 @@ public interface DepartmentService {
     void deleteById(Long id);
 
     List<Department> saveAll(Iterable<Department> departments);
+
+    long count();
+
+    boolean existsById(Long id);
 }

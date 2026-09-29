@@ -16,4 +16,6 @@ public interface StudentService {
     List<Student> saveAll(Iterable<Student> students);
     
     void deleteById(Long id);
+
+    long count();
 }

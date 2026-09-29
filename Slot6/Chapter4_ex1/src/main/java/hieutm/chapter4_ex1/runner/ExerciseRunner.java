@@ -17,7 +17,23 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // TODO: Exercise tasks will be implemented here
-        System.out.println("ExerciseRunner started with DepartmentService and StudentService injected");
+        runTodo6();
+    }
+
+    private void runTodo6() {
+        System.out.println("===== TODO 6: Built-in count, findById, existsById =====");
+        System.out.printf("Total departments: %d, Total students: %d%n", departmentService.count(), studentService.count());
+
+        studentService.findById(1L).ifPresentOrElse(
+                s -> System.out.println("Student id=1: " + s.getFullName()),
+                () -> System.out.println("Student id=1: Not found")
+        );
+
+        studentService.findById(99L).ifPresentOrElse(
+                s -> System.out.println("Student id=99: " + s.getFullName()),
+                () -> System.out.println("Student id=99: Not found")
+        );
+
+        System.out.println("Department id=4 exists: " + departmentService.existsById(4L));
     }
 }
