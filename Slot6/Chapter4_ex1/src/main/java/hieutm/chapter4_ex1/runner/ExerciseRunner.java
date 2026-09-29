@@ -34,6 +34,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo14();
         runTodo15();
         runTodo16();
+        runTodo17();
     }
 
     private void runTodo6() {
@@ -192,5 +193,13 @@ public class ExerciseRunner implements CommandLineRunner {
         Department aiDept = departmentService.getWithStudents("AI");
         System.out.printf("%s - %s:%n", aiDept.getCode(), aiDept.getName());
         aiDept.getStudents().forEach(s -> System.out.println(" - " + s.getFullName()));
+    }
+
+    private void runTodo17() {
+        System.out.println("===== TODO 17: Custom query - Native SQL TOP (:n) =====");
+        System.out.println("Top 2 students in 'SE' sorted by GPA desc (Native SQL):");
+        studentService.findTopNInDepartment("SE", 2).forEach(
+                s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa())
+        );
     }
 }

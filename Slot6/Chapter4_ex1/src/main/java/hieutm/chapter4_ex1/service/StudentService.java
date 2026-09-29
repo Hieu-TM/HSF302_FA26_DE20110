@@ -56,4 +56,6 @@ public interface StudentService {
     List<Student> searchByKeyword(String kw);
 
     List<Student> findAboveAverageGpa();
+
+    List<Student> findTopNInDepartment(String deptCode, int n);
 }
