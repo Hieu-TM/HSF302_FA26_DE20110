@@ -20,4 +20,6 @@ public interface DepartmentService {
     long count();
 
     boolean existsById(Long id);
+
+    List<Department> findDepartmentsWithoutStudents();
 }

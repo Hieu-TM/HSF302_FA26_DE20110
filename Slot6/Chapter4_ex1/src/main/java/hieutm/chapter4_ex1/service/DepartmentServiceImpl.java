@@ -53,4 +53,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     public boolean existsById(Long id) {
         return departmentRepository.existsById(id);
     }
+
+    @Override
+    public List<Department> findDepartmentsWithoutStudents() {
+        return departmentRepository.findByStudentsIsEmpty();
+    }
 }
