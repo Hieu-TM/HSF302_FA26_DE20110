@@ -36,6 +36,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo16();
         runTodo17();
         runTodo18();
+        runTodo19();
     }
 
     private void runTodo6() {
@@ -210,5 +211,18 @@ public class ExerciseRunner implements CommandLineRunner {
                 s -> System.out.printf("%s - %s - GPA: %.1f - Dept: %s%n",
                         s.getStudentCode(), s.getFullName(), s.getGpa(), s.getDepartmentName())
         );
+    }
+
+    private void runTodo19() {
+        System.out.println("===== TODO 19: Custom query - @Query + Pageable =====");
+        System.out.println("-- Page 0 (size 2):");
+        Page<Student> page0 = studentService.findActiveByDepartment("SE", 0, 2);
+        page0.getContent().forEach(s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa()));
+
+        System.out.println("-- Page 1 (size 2):");
+        Page<Student> page1 = studentService.findActiveByDepartment("SE", 1, 2);
+        page1.getContent().forEach(s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa()));
+
+        System.out.printf("totalElements = %d, totalPages = %d%n", page0.getTotalElements(), page0.getTotalPages());
     }
 }

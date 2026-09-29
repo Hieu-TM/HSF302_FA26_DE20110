@@ -61,4 +61,6 @@ public interface StudentService {
     List<Student> findTopNInDepartment(String deptCode, int n);
 
     List<StudentSummary> getActiveSummaries();
+
+    Page<Student> findActiveByDepartment(String deptCode, int pageIndex, int size);
 }
