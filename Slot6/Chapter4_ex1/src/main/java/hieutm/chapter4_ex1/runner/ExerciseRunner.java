@@ -21,6 +21,7 @@ public class ExerciseRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         runTodo6();
         runTodo7();
+        runTodo8();
     }
 
     private void runTodo6() {
@@ -54,5 +55,25 @@ public class ExerciseRunner implements CommandLineRunner {
         );
         System.out.printf("totalElements = %d, totalPages = %d, hasNext = %b%n",
                 page.getTotalElements(), page.getTotalPages(), page.hasNext());
+    }
+
+    private void runTodo8() {
+        System.out.println("===== TODO 8: Derived query - findByStudentCode, existsByEmail, countByActiveTrue =====");
+        System.out.println("-- 8a. Find student by code --");
+        studentService.findByStudentCode("AI002").ifPresentOrElse(
+                s -> System.out.println("Student AI002: " + s.getFullName()),
+                () -> System.out.println("Student AI002: Not found")
+        );
+        studentService.findByStudentCode("XX999").ifPresentOrElse(
+                s -> System.out.println("Student XX999: " + s.getFullName()),
+                () -> System.out.println("Student XX999: Not found")
+        );
+
+        System.out.println("-- 8b. Check email exists --");
+        String email = "binh.tt@fpt.edu.vn";
+        System.out.printf("Email %s exists: %b%n", email, studentService.isEmailExisted(email));
+
+        System.out.println("-- 8c. Count active students --");
+        System.out.println("Active students count: " + studentService.countActive());
     }
 }
