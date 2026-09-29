@@ -31,6 +31,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo12();
         runTodo13();
         runTodo14();
+        runTodo15();
     }
 
     private void runTodo6() {
@@ -164,5 +165,13 @@ public class ExerciseRunner implements CommandLineRunner {
             String avgGpaStr = (stat.avgGpa() != null) ? String.format("%.3f", stat.avgGpa()) : "null";
             System.out.printf("%s: %d - %s%n", stat.code(), stat.studentCount(), avgGpaStr);
         });
+    }
+
+    private void runTodo15() {
+        System.out.println("===== TODO 15: Custom query - Subquery AVG =====");
+        System.out.println("Students with GPA > average GPA sorted by GPA desc:");
+        studentService.findAboveAverageGpa().forEach(
+                s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa())
+        );
     }
 }
