@@ -4,7 +4,9 @@ import hieutm.chapter4_ex1.dto.StudentSummary;
 import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 import hieutm.chapter4_ex1.repository.StudentRepository;
+import hieutm.chapter4_ex1.specification.StudentSpecs;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -193,5 +195,14 @@ public class StudentServiceImpl implements StudentService {
         }
         Pageable pageable = PageRequest.of(pageIndex, size);
         return studentRepository.findActiveByDepartment(deptCode, pageable);
+    }
+
+    @Override
+    public List<Student> search(String kw, String deptCode, Double minGpa, Boolean active) {
+        Specification<Student> spec = Specification.where(StudentSpecs.nameContains(kw))
+                .and(StudentSpecs.inDepartment(deptCode))
+                .and(StudentSpecs.gpaAtLeast(minGpa))
+                .and(StudentSpecs.isActive(active));
+        return studentRepository.findAll(spec, Sort.by(Sort.Direction.ASC, "fullName"));
     }
 }
