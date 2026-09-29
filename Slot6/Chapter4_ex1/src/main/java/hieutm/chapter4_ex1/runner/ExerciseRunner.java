@@ -35,6 +35,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo15();
         runTodo16();
         runTodo17();
+        runTodo18();
     }
 
     private void runTodo6() {
@@ -200,6 +201,14 @@ public class ExerciseRunner implements CommandLineRunner {
         System.out.println("Top 2 students in 'SE' sorted by GPA desc (Native SQL):");
         studentService.findTopNInDepartment("SE", 2).forEach(
                 s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa())
+        );
+    }
+
+    private void runTodo18() {
+        System.out.println("===== TODO 18: Custom query - Interface projection StudentSummary =====");
+        studentService.getActiveSummaries().forEach(
+                s -> System.out.printf("%s - %s - GPA: %.1f - Dept: %s%n",
+                        s.getStudentCode(), s.getFullName(), s.getGpa(), s.getDepartmentName())
         );
     }
 }

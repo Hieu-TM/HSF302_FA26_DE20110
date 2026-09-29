@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.StudentSummary;
 import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 import hieutm.chapter4_ex1.repository.StudentRepository;
@@ -175,5 +176,10 @@ public class StudentServiceImpl implements StudentService {
             throw new IllegalArgumentException("n must be greater than 0");
         }
         return studentRepository.findTopNInDepartment(deptCode, n);
+    }
+
+    @Override
+    public List<StudentSummary> getActiveSummaries() {
+        return studentRepository.getActiveSummaries();
     }
 }

@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.StudentSummary;
 import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 
@@ -58,4 +59,6 @@ public interface StudentService {
     List<Student> findAboveAverageGpa();
 
     List<Student> findTopNInDepartment(String deptCode, int n);
+
+    List<StudentSummary> getActiveSummaries();
 }

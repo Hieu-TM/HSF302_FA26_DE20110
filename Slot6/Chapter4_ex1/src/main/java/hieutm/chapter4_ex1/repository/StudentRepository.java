@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.repository;
 
+import hieutm.chapter4_ex1.dto.StudentSummary;
 import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -50,4 +51,8 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
 
     @Query(value = "SELECT TOP (:n) s.* FROM students s JOIN departments d ON s.department_id = d.id WHERE d.code = :deptCode ORDER BY s.gpa DESC", nativeQuery = true)
     List<Student> findTopNInDepartment(@Param("deptCode") String deptCode, @Param("n") int n);
+
+    @Query("SELECT s.studentCode AS studentCode, s.fullName AS fullName, s.gpa AS gpa, s.department.name AS departmentName " +
+           "FROM Student s WHERE s.active = true ORDER BY s.fullName ASC")
+    List<StudentSummary> getActiveSummaries();
 }
