@@ -205,4 +205,16 @@ public class StudentServiceImpl implements StudentService {
                 .and(StudentSpecs.isActive(active));
         return studentRepository.findAll(spec, Sort.by(Sort.Direction.ASC, "fullName"));
     }
+
+    @Override
+    @Transactional
+    public Student updateGpa(String code, double newGpa) {
+        if (newGpa < 0 || newGpa > 4.0) {
+            throw new IllegalArgumentException("GPA must be between 0 and 4");
+        }
+        Student student = studentRepository.findByStudentCode(code)
+                .orElseThrow(() -> new IllegalArgumentException("Student not found with code: " + code));
+        student.setGpa(newGpa);
+        return student;
+    }
 }

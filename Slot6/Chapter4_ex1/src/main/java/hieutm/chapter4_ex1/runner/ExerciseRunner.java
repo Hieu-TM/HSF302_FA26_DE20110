@@ -38,6 +38,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo18();
         runTodo19();
         runTodo24();
+        runTodo20();
     }
 
     private void runTodo6() {
@@ -238,5 +239,12 @@ public class ExerciseRunner implements CommandLineRunner {
         studentService.search("van", null, null, null).forEach(
                 s -> System.out.println(s.getFullName())
         );
+    }
+
+    private void runTodo20() {
+        System.out.println("===== TODO 20: Modifying - Update GPA with dirty checking =====");
+        Student updated = studentService.updateGpa("SE001", 3.4);
+        System.out.printf("Student %s (%s) updated GPA: %.1f%n",
+                updated.getStudentCode(), updated.getFullName(), updated.getGpa());
     }
 }
