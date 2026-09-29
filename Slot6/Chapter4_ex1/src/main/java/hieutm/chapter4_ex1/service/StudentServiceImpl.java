@@ -226,4 +226,10 @@ public class StudentServiceImpl implements StudentService {
         }
         return studentRepository.deactivateLowGpa(threshold);
     }
+
+    @Override
+    @Transactional
+    public long deleteInactiveStudents() {
+        return studentRepository.deleteByActiveFalse();
+    }
 }
