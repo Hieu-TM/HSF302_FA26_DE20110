@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.DepartmentStatDTO;
 import hieutm.chapter4_ex1.pojo.Department;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface DepartmentService {
     boolean existsById(Long id);
 
     List<Department> findDepartmentsWithoutStudents();
+
+    List<hieutm.chapter4_ex1.dto.DepartmentStatDTO> getStatistics();
 }

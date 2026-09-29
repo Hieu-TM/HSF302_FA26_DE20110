@@ -30,6 +30,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo11();
         runTodo12();
         runTodo13();
+        runTodo14();
     }
 
     private void runTodo6() {
@@ -155,5 +156,13 @@ public class ExerciseRunner implements CommandLineRunner {
         studentService.searchByKeyword("gmail").forEach(
                 s -> System.out.println(s.getFullName() + " - " + s.getEmail())
         );
+    }
+
+    private void runTodo14() {
+        System.out.println("===== TODO 14: Custom query - Department statistics with DTO projection =====");
+        departmentService.getStatistics().forEach(stat -> {
+            String avgGpaStr = (stat.avgGpa() != null) ? String.format("%.3f", stat.avgGpa()) : "null";
+            System.out.printf("%s: %d - %s%n", stat.code(), stat.studentCount(), avgGpaStr);
+        });
     }
 }

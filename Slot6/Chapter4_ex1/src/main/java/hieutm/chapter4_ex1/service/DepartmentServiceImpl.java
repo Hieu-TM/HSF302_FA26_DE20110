@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.DepartmentStatDTO;
 import hieutm.chapter4_ex1.pojo.Department;
 import hieutm.chapter4_ex1.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> findDepartmentsWithoutStudents() {
         return departmentRepository.findByStudentsIsEmpty();
+    }
+
+    @Override
+    public List<DepartmentStatDTO> getStatistics() {
+        return departmentRepository.getStatistics();
     }
 }
