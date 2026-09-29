@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.runner;
 
+import hieutm.chapter4_ex1.pojo.Department;
 import hieutm.chapter4_ex1.pojo.Gender;
 import hieutm.chapter4_ex1.pojo.Student;
 import hieutm.chapter4_ex1.service.DepartmentService;
@@ -32,6 +33,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo13();
         runTodo14();
         runTodo15();
+        runTodo16();
     }
 
     private void runTodo6() {
@@ -173,5 +175,22 @@ public class ExerciseRunner implements CommandLineRunner {
         studentService.findAboveAverageGpa().forEach(
                 s -> System.out.printf("%s: %.1f%n", s.getFullName(), s.getGpa())
         );
+    }
+
+    private void runTodo16() {
+        System.out.println("===== TODO 16: LazyInitializationException & JOIN FETCH =====");
+        System.out.println("-- 16a. Reproducing LazyInitializationException --");
+        departmentService.findByCode("AI").ifPresent(d -> {
+            try {
+                System.out.println("Trying to access students outside transaction: size = " + d.getStudents().size());
+            } catch (Exception e) {
+                System.out.println("Caught expected exception: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+            }
+        });
+
+        System.out.println("-- 16b. Load with JOIN FETCH --");
+        Department aiDept = departmentService.getWithStudents("AI");
+        System.out.printf("%s - %s:%n", aiDept.getCode(), aiDept.getName());
+        aiDept.getStudents().forEach(s -> System.out.println(" - " + s.getFullName()));
     }
 }

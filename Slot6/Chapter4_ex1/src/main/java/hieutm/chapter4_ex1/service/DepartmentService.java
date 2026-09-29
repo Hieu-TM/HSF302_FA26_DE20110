@@ -25,4 +25,8 @@ public interface DepartmentService {
     List<Department> findDepartmentsWithoutStudents();
 
     List<hieutm.chapter4_ex1.dto.DepartmentStatDTO> getStatistics();
+
+    Optional<Department> findByCode(String code);
+
+    Department getWithStudents(String code);
 }
