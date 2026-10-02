@@ -1,10 +1,12 @@
 package hieutm.chapter4_ex1.repository;
 
+import hieutm.chapter4_ex1.dto.CourseEnrollmentCount;
 import hieutm.chapter4_ex1.dto.CourseStatDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,4 +35,11 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @EntityGraph(attributePaths = "students")
     Optional<Course> findWithStudentsByCode(String code);
+
+    @Query(value = "SELECT TOP (:n) c.code AS code, c.name AS name, COUNT(sc.student_id) AS enrolled " +
+            "FROM courses c LEFT JOIN student_courses sc ON sc.course_id = c.id " +
+            "GROUP BY c.code, c.name " +
+            "ORDER BY enrolled DESC, c.code",
+            nativeQuery = true)
+    List<CourseEnrollmentCount> findTopEnrolledNative(@Param("n") int n);
 }

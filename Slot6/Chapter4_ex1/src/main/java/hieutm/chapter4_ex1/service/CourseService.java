@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.CourseEnrollmentCount;
 import hieutm.chapter4_ex1.dto.CourseStatDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 
@@ -25,4 +26,6 @@ public interface CourseService {
     List<Course> findFullCourses();
 
     Course getWithStudents(String code);
+
+    List<CourseEnrollmentCount> findTopEnrolled(int n);
 }

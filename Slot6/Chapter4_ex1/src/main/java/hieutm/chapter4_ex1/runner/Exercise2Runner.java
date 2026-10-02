@@ -1,6 +1,7 @@
 package hieutm.chapter4_ex1.runner;
 
 import hieutm.chapter4_ex1.pojo.Course;
+import hieutm.chapter4_ex1.pojo.Student;
 import hieutm.chapter4_ex1.service.CourseService;
 import hieutm.chapter4_ex1.service.EnrollmentService;
 import hieutm.chapter4_ex1.service.StudentService;
@@ -48,6 +49,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo14();
         todo15();
         todo16();
+        todo17();
     }
     private void bonus() { }
     private void partE() { }
@@ -176,5 +178,11 @@ public class Exercise2Runner implements CommandLineRunner {
         c.getStudents().stream()
                 .sorted(java.util.Comparator.comparing(Student::getFullName))
                 .forEach(st -> System.out.println("   " + st));
+    }
+
+    private void todo17() {
+        title("TODO 17: native SQL on join table - top 3 enrolled courses");
+        courseService.findTopEnrolled(3).forEach(r -> System.out.printf(
+                "   %s | %-35s | %d student(s)%n", r.getCode(), r.getName(), r.getEnrolled()));
     }
 }

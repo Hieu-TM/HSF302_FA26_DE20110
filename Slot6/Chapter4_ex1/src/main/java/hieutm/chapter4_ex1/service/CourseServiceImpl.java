@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.CourseEnrollmentCount;
 import hieutm.chapter4_ex1.dto.CourseStatDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 import hieutm.chapter4_ex1.repository.CourseRepository;
@@ -79,5 +80,13 @@ public class CourseServiceImpl implements CourseService {
     public Course getWithStudents(String code) {
         return courseRepository.findWithStudentsByCode(code)
                 .orElseThrow(() -> new IllegalArgumentException("Course not found: " + code));
+    }
+
+    @Override
+    public List<CourseEnrollmentCount> findTopEnrolled(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("n must be > 0");
+        }
+        return courseRepository.findTopEnrolledNative(n);
     }
 }
