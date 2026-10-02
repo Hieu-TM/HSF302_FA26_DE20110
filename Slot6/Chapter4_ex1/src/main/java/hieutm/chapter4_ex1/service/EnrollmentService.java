@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.StudentCreditDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 import hieutm.chapter4_ex1.pojo.Student;
 
@@ -17,4 +18,6 @@ public interface EnrollmentService {
     boolean isEnrolled(String studentCode, String courseCode);
 
     List<Student> findGoodStudentsInCourse(String courseCode, double minGpa);
+
+    List<StudentCreditDTO> getCreditSummary(int minCredits);
 }

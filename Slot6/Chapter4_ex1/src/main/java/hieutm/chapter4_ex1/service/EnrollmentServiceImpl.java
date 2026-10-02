@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.StudentCreditDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 import hieutm.chapter4_ex1.pojo.Student;
 import hieutm.chapter4_ex1.repository.CourseRepository;
@@ -66,6 +67,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             throw new IllegalArgumentException("minGpa must be in [0, 4]");
         }
         return studentRepository.findGoodStudentsInCourse(courseCode, minGpa);
+    }
+
+    @Override
+    public List<StudentCreditDTO> getCreditSummary(int minCredits) {
+        if (minCredits < 0) {
+            throw new IllegalArgumentException("minCredits must be >= 0");
+        }
+        return studentRepository.getCreditSummary(minCredits);
     }
 
     // ===== helper dùng chung cho mọi method =====
