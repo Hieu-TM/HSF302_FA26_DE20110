@@ -4,6 +4,7 @@ import hieutm.chapter4_ex1.dto.EnrollmentView;
 import hieutm.chapter4_ex1.dto.StudentCreditDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 import hieutm.chapter4_ex1.pojo.Student;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface EnrollmentService {
     Student getStudentWithCourses(String studentCode);
 
     List<EnrollmentView> getEnrollmentsOfDepartment(String deptCode);
+
+    Page<Student> findStudentsInCoursePage(String courseCode, int pageIndex, int size);
 }
