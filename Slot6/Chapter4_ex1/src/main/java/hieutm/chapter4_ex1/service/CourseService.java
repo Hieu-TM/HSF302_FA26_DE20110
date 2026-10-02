@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.CourseStatDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface CourseService {
     List<Course> findCoursesOfDepartment(String deptCode, boolean distinct);
 
     List<Course> findCoursesWithoutStudents();
+
+    List<CourseStatDTO> getStatistics();
 }
