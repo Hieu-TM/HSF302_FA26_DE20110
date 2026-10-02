@@ -47,6 +47,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo13();
         todo14();
         todo15();
+        todo16();
     }
     private void bonus() { }
     private void partE() { }
@@ -148,5 +149,32 @@ public class Exercise2Runner implements CommandLineRunner {
         title("TODO 15: SIZE() on collections");
         printList("(a) Full courses", courseService.findFullCourses());
         printList("(b) Students with more than 2 courses", enrollmentService.findStudentsWithMoreThan(2));
+    }
+
+    private void todo16() {
+        title("TODO 16: LazyInitializationException, JOIN FETCH, @EntityGraph");
+
+        // (a) Student trả về từ Service (Exercise 1) → transaction đã đóng → courses chưa được nạp
+        try {
+            Student s = studentService.findByStudentCode("SE001").orElseThrow();
+            System.out.println("(a) courses = " + s.getCourses().size());
+        } catch (org.hibernate.LazyInitializationException e) {
+            System.out.println("(a) Caught: " + e.getClass().getSimpleName());
+            System.out.println("    " + e.getMessage());
+        }
+
+        // (b) JOIN FETCH: nạp student + courses trong 1 câu SQL
+        Student s = enrollmentService.getStudentWithCourses("SE001");
+        System.out.println("(b) " + s.getStudentCode() + " - " + s.getFullName());
+        s.getCourses().stream()
+                .sorted(java.util.Comparator.comparing(Course::getCode))
+                .forEach(c -> System.out.println("   " + c));
+
+        // (c) @EntityGraph: nạp course + students
+        Course c = courseService.getWithStudents("SWP391");
+        System.out.println("(c) " + c.getCode() + " - " + c.getName());
+        c.getStudents().stream()
+                .sorted(java.util.Comparator.comparing(Student::getFullName))
+                .forEach(st -> System.out.println("   " + st));
     }
 }

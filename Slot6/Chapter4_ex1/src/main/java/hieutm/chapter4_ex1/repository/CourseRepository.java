@@ -2,6 +2,7 @@ package hieutm.chapter4_ex1.repository;
 
 import hieutm.chapter4_ex1.dto.CourseStatDTO;
 import hieutm.chapter4_ex1.pojo.Course;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -29,4 +30,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query("SELECT c FROM Course c WHERE SIZE(c.students) >= c.capacity ORDER BY c.code")
     List<Course> findFullCourses();
+
+    @EntityGraph(attributePaths = "students")
+    Optional<Course> findWithStudentsByCode(String code);
 }
