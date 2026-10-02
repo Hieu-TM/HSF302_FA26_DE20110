@@ -46,17 +46,39 @@ public class Student {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    @ManyToMany
+    @JoinTable(
+            name = "student_courses",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private java.util.Set<Course> courses = new java.util.HashSet<>();
+
+    public void enroll(Course c) {
+        courses.add(c);
+        c.getStudents().add(this);
+    }
+
+    public void unenroll(Course c) {
+        courses.remove(c);
+        c.getStudents().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student other)) return false;
+        return studentCode != null && studentCode.equals(other.getStudentCode());
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hashCode(studentCode);
+    }
+
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", studentCode='" + studentCode + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", gender=" + gender +
-                ", dob=" + dob +
-                ", gpa=" + gpa +
-                ", active=" + active +
-                '}';
+        return String.format("%s | %-15s | %-20s | %.1f | %s",
+                studentCode, fullName, email, gpa, (active != null && active) ? "active" : "inactive");
     }
 }
