@@ -99,4 +99,11 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
 
     @Query("SELECT s FROM Student s LEFT JOIN FETCH s.courses WHERE s.studentCode = :code")
     Optional<Student> findByStudentCodeWithCourses(@Param("code") String studentCode);
+
+    @Query("SELECT s.studentCode AS studentCode, s.fullName AS fullName, " +
+            "       c.code AS courseCode, c.name AS courseName, c.credits AS credits " +
+            "FROM Student s JOIN s.department d JOIN s.courses c " +
+            "WHERE d.code = :deptCode " +
+            "ORDER BY s.studentCode, c.code")
+    List<hieutm.chapter4_ex1.dto.EnrollmentView> findEnrollmentsOfDepartment(@Param("deptCode") String deptCode);
 }

@@ -1,5 +1,6 @@
 package hieutm.chapter4_ex1.service;
 
+import hieutm.chapter4_ex1.dto.EnrollmentView;
 import hieutm.chapter4_ex1.dto.StudentCreditDTO;
 import hieutm.chapter4_ex1.pojo.Course;
 import hieutm.chapter4_ex1.pojo.Student;
@@ -24,4 +25,6 @@ public interface EnrollmentService {
     List<Student> findStudentsWithMoreThan(int n);
 
     Student getStudentWithCourses(String studentCode);
+
+    List<EnrollmentView> getEnrollmentsOfDepartment(String deptCode);
 }
