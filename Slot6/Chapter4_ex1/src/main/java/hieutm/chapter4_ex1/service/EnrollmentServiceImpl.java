@@ -157,6 +157,22 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         s.unenroll(c);        // chỉ DELETE 1 dòng trong student_courses
     }
 
+    @Override
+    @Transactional
+    public void switchCourse(String studentCode, String fromCode, String toCode) {
+        if (fromCode == null || fromCode.equals(toCode)) {
+            throw new IllegalArgumentException("fromCode and toCode must be different");
+        }
+        Student s = getStudent(studentCode);
+        Course from = getCourse(fromCode);
+        Course to = getCourse(toCode);
+        if (!s.getCourses().contains(from)) {
+            throw new IllegalStateException("Student " + studentCode + " is not enrolled in " + fromCode);
+        }
+        s.unenroll(from);          // (1) gỡ lớp cũ
+        checkAndEnroll(s, to);     // (2) đăng ký lớp mới — lỗi ⇒ RuntimeException ⇒ rollback cả (1)
+    }
+
     // ===== helper dùng chung cho mọi method =====
     private Student getStudent(String studentCode) {
         if (studentCode == null || studentCode.isBlank()) {
