@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Kết quả</title>
-    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"/>
+    <th:block th:replace="~{fragments/layout :: commonHead(${tieuDe})}"></th:block>
 </head>
 <body>
+<nav th:replace="~{fragments/layout :: navbar('sinhvien')}"></nav>
 <main class="container py-4">
 
     <!-- Flash message: chỉ có ngay sau redirect -->
@@ -25,5 +24,7 @@
 
     <a th:href="@{/sanpham/them}" class="btn btn-primary">Thêm tiếp</a>
 </main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>
