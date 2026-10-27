@@ -110,7 +110,7 @@
                 <td th:text="${s.studentCode}">SE180001</td>
                 <td th:text="${#strings.toUpperCase(s.fullName)}">NGUYỄN VĂN A</td>
                 <td th:text="${s.email}">a@fpt.edu.vn</td>
-                <td th:text="${#temporals.format(s.dob, 'dd/MM/yyyy')}">01/01/2004</td>
+                <td th:text="${#temporals.format(s.dateOfBirth, 'dd/MM/yyyy')}">01/01/2004</td>
                 <td th:text="${s.age}">22</td>
                 <td th:text="${majors[s.major] != null ? majors[s.major] : s.major}">Kỹ thuật phần mềm</td>
                 <td th:text="${#numbers.formatDecimal(s.gpa, 1, 2)}">8.00</td>
