@@ -20,7 +20,7 @@ module com.hsf302.hieutm.ch08 {
     exports com.hsf302.hieutm.ch08.b5;
     exports com.hsf302.hieutm.ch08.b6;
     exports com.hsf302.hieutm.ch08.t1;
-//    exports com.hsf302.hieutm.ch08.t2;
+    exports com.hsf302.hieutm.ch08.t2;
 //    exports com.hsf302.hieutm.ch08.t3;
 //    exports com.hsf302.hieutm.ch08.t4;
 //    exports com.hsf302.hieutm.ch08.t5;
