@@ -90,55 +90,55 @@ public class StudentController {
         }
     }
 
-//    @FXML
-//    private void handleUpdate() {
-//        Student selected = tableView.getSelectionModel().getSelectedItem();
-//        if (selected == null) {
-//            showError("Please select a student");
-//            return;
-//        }
-//        try {
-//            Student edit = readForm();
-//            edit.setId(selected.getId());
-//            Student updated = studentService.update(edit);
-//            showInfo("Updated: " + updated.getName());
-//            handleClear();
-//            loadData();
-//        } catch (ValidationException | StudentNotFoundException e) {
-//            showError(e.getMessage());
-//        } catch (Exception e) {
-//            showError("System error: " + e.getMessage());
-//        }
-//    }
-//
-//    @FXML
-//    private void handleDelete() {
-//        Student selected = tableView.getSelectionModel().getSelectedItem();
-//        if (selected == null) {
-//            showError("Please select a student");
-//            return;
-//        }
-//        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
-//                "Delete student \"" + selected.getName() + "\"?",
-//                ButtonType.OK, ButtonType.CANCEL);
-//        confirm.setHeaderText("Confirm delete");
-//        confirm.initOwner(tableView.getScene().getWindow());
-//        confirm.showAndWait()
-//                .filter(rs -> rs == ButtonType.OK)
-//                .ifPresent(rs -> {
-//                    try {
-//                        studentService.delete(selected.getId());
-//                        showInfo("Deleted: " + selected.getName());
-//                        handleClear();
-//                        loadData();
-//                    } catch (StudentNotFoundException e) {
-//                        showError(e.getMessage());
-//                        loadData();
-//                    } catch (Exception e) {
-//                        showError("System error: " + e.getMessage());
-//                    }
-//                });
-//    }
+    @FXML
+    private void handleUpdate() {
+        Student selected = tableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showError("Please select a student");
+            return;
+        }
+        try {
+            Student edit = readForm();
+            edit.setId(selected.getId());
+            Student updated = studentService.update(edit);
+            showInfo("Updated: " + updated.getName());
+            handleClear();
+            loadData();
+        } catch (ValidationException | StudentNotFoundException e) {
+            showError(e.getMessage());
+        } catch (Exception e) {
+            showError("System error: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleDelete() {
+        Student selected = tableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showError("Please select a student");
+            return;
+        }
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "Delete student \"" + selected.getName() + "\"?",
+                ButtonType.OK, ButtonType.CANCEL);
+        confirm.setHeaderText("Confirm delete");
+        confirm.initOwner(tableView.getScene().getWindow());
+        confirm.showAndWait()
+                .filter(rs -> rs == ButtonType.OK)
+                .ifPresent(rs -> {
+                    try {
+                        studentService.delete(selected.getId());
+                        showInfo("Deleted: " + selected.getName());
+                        handleClear();
+                        loadData();
+                    } catch (StudentNotFoundException e) {
+                        showError(e.getMessage());
+                        loadData();
+                    } catch (Exception e) {
+                        showError("System error: " + e.getMessage());
+                    }
+                });
+    }
 
     @FXML
     private void handleClear() {
