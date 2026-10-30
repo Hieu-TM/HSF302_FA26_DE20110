@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com. com.hsf302.hieuTM.ui.controller.StudentController">
+            fx:controller="com.hsf302.hieuTM.ui.controller.StudentController">
     <top>
         <VBox spacing="10">
             <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
