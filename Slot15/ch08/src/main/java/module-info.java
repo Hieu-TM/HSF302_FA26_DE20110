@@ -5,7 +5,7 @@ module com.hsf302.hieutm.ch08 {
     requires javafx.media;    // T5
 
     // FXMLLoader cần reflection vào controller (@FXML private field/method)
-//    opens com.fu.ch08.b4 to javafx.fxml;
+    opens com.hsf302.hieutm.ch08.b4 to javafx.fxml;
 //    opens com.fu.ch08.b5 to javafx.fxml;
 //    opens com.fu.ch08.b6 to javafx.fxml;
 //    opens com.fu.ch08.t1 to javafx.fxml, javafx.base;   // javafx.base: PropertyValueFactory (TableView)
@@ -16,7 +16,7 @@ module com.hsf302.hieutm.ch08 {
     exports com.hsf302.hieutm.ch08.b1;
     exports com.hsf302.hieutm.ch08.b2;
     exports com.hsf302.hieutm.ch08.b3;
-//    exports com.hsf302.hieutm.ch08.b4;
+    exports com.hsf302.hieutm.ch08.b4;
 //    exports com.hsf302.hieutm.ch08.b5;
 //    exports com.hsf302.hieutm.ch08.b6;
 //    exports com.hsf302.hieutm.ch08.t1;
