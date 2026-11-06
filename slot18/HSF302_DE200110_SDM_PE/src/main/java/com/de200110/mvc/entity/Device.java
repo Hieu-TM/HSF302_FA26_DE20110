@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
 public class Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,20 +15,20 @@ public class Device {
     @Column(name = "device_code", unique = true, nullable = false, length = 6)
     private String deviceCode;
 
-    @Column(name = "device name", nullable = false, length = 200)
+    @Column(name = "device_name", nullable = false, length = 200)
     private String deviceName;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @Column(name = "price", precision = 10, scale = 0, nullable = false)
     private BigDecimal price;
 
-    @Column(name = "warranty_ months", nullable = false)
+    @Column(name = "warranty_months", nullable = false)
     private int warrantyMonths;
 
-    @Column(name = "installation date", nullable = false)
+    @Column(name = "installation_date", nullable = false)
     private LocalDate installationDate;
 
     @Column(name = "status", nullable = false, length = 10)
